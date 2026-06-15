@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometria Plana para o ENCCEJA — Aula Completa</title>
+    <style>
+        :root {
+            --bg: #f5f3ef;
+            --surface: #ffffff;
+            --primary: #1e3a5f;
+            --primary-light: #2c5f8a;
+            --accent: #e8913a;
+            --accent-soft: #fdf0e3;
+            --text: #2c2c2c;
+            --text-light: #555;
+            --border: #e0dcd5;
+            --success: #2d7d46;
+            --success-bg: #eaf5ee;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.10);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --transition: 0.25s ease;
+            --font-heading: 'Georgia', 'Times New Roman', serif;
+            --font-body: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'SF Mono', 'Consolas', 'Monaco', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 17px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* ── NAVBAR ──────────────────────────── */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--primary);
+            color: #fff;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            min-height: 58px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+        }
+        .navbar .logo {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+        .navbar .logo span {
+            color: #f9c74f;
+        }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: #dde4ed;
+            text-decoration: none;
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        .nav-links a:hover,
+        .nav-links a:focus {
+            background: rgba(255, 255, 255, 0.13);
+            color: #fff;
+            outline: none;
+        }
+        .nav-links .nav-exerc {
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+        .nav-links .nav-exerc:hover {
+            background: #d97e2c;
+        }
+
+        /* ── MAIN CONTAINER ──────────────────── */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 3rem;
+        }
+
+        /* ── HERO ────────────────────────────── */
+        .hero {
+            text-align: center;
+            padding: 2.5rem 1rem 2rem;
+        }
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 2.6rem;
+            color: var(--primary);
+            letter-spacing: 0.02em;
+            margin-bottom: 0.5rem;
+        }
+        .hero .subtitle {
+            font-size: 1.15rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .hero .badge {
+            display: inline-block;
+            background: var(--accent-soft);
+            color: #b45f1e;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            margin-top: 1rem;
+            letter-spacing: 0.03em;
+        }
+
+        /* ── SECTION CARDS ───────────────────── */
+        .section-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.8rem 2rem;
+            margin-bottom: 1.8rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            scroll-margin-top: 80px;
+        }
+        .section-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+        .section-card h2 {
+            font-family: var(--font-heading);
+            font-size: 1.55rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #e8e3d9;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .section-card h3 {
+            font-size: 1.2rem;
+            color: var(--primary-light);
+            margin: 1.3rem 0 0.6rem;
+        }
+        .section-card p,
+        .section-card li {
+            margin-bottom: 0.45rem;
+            color: var(--text);
+        }
+        .section-card ul {
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .section-card li {
+            margin-bottom: 0.3rem;
+        }
+
+        /* ── HIGHLIGHT BOX ──────────────────── */
+        .highlight-box {
+            background: #fdf8f2;
+            border-left: 4px solid var(--accent);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            padding: 1rem 1.3rem;
+            margin: 1.2rem 0;
+            font-weight: 500;
+        }
+        .highlight-box.tip {
+            background: #f0f7fb;
+            border-left-color: #4a90c4;
+        }
+        .highlight-box.warning {
+            background: #fff9f5;
+            border-left-color: #d9534f;
+        }
+
+        /* ── TABELA QUADRILÁTEROS ───────────── */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+            -webkit-overflow-scrolling: touch;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.93rem;
+            min-width: 550px;
+        }
+        table thead th {
+            background: var(--primary);
+            color: #fff;
+            padding: 0.7rem 0.9rem;
+            text-align: left;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        table tbody td {
+            padding: 0.65rem 0.9rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        table tbody tr:nth-child(even) {
+            background: #fafaf8;
+        }
+        table tbody tr:hover {
+            background: #f4f1eb;
+        }
+
+        /* ── FORMULA DISPLAY ────────────────── */
+        .formula {
+            display: inline-block;
+            background: #f4f1eb;
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            color: #1e3a5f;
+            margin: 0.15rem 0;
+        }
+        .formula-block {
+            display: block;
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 0.7rem;
+            margin: 0.8rem 0;
+            background: #f9f7f3;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: #1e3a5f;
+            letter-spacing: 0.04em;
+        }
+
+        /* ── SVG ILLUSTRATIONS ──────────────── */
+        .illustration {
+            display: flex;
+            justify-content: center;
+            margin: 1.2rem 0;
+        }
+        .illustration svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* ── EXERCISE CARDS ─────────────────── */
+        .exercises-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.55rem 1.3rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            letter-spacing: 0.02em;
+            font-family: var(--font-body);
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #1a334f;
+            box-shadow: var(--shadow-md);
+        }
+        .btn-outline {
+            background: #fff;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .btn-outline:hover {
+            background: #eef3f8;
+        }
+        .btn-accent {
+            background: var(--accent);
+            color: #fff;
+        }
+        .btn-accent:hover {
+            background: #d97e2c;
+        }
+        .btn-sm {
+            padding: 0.35rem 0.9rem;
+            font-size: 0.8rem;
+            border-radius: 20px;
+        }
+        .exercise-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.4rem 1.6rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            position: relative;
+        }
+        .exercise-card .q-number {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+        .exercise-card .q-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.6rem;
+        }
+        .exercise-card .q-text {
+            font-weight: 500;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .exercise-card .options {
+            list-style: none;
+            padding-left: 2.8rem;
+            margin: 0.5rem 0 0.8rem;
+        }
+        .exercise-card .options li {
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+        .answer-reveal {
+            display: none;
+            margin-top: 0.7rem;
+            padding: 0.7rem 1rem;
+            background: var(--success-bg);
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--success);
+            font-weight: 600;
+            color: var(--success);
+            animation: fadeIn 0.3s ease;
+        }
+        .answer-reveal.show {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── GABARITO TABLE ─────────────────── */
+        .gabarito-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .gabarito-item {
+            background: #f9f7f3;
+            padding: 0.5rem;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .gabarito-item span {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        /* ── FOOTER ──────────────────────────── */
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #888;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        /* ── SCROLL TO TOP ──────────────────── */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .scroll-top:hover {
+            background: #1a334f;
+        }
+
+        /* ── RESPONSIVE ─────────────────────── */
+        @media (max-width: 768px) {
+            html {
+                font-size: 15px;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .section-card {
+                padding: 1.3rem 1.2rem;
+            }
+            .navbar {
+                padding: 0.4rem 1rem;
+                min-height: 50px;
+            }
+            .nav-links a {
+                font-size: 0.78rem;
+                padding: 0.3rem 0.5rem;
+            }
+            .exercise-card .options {
+                padding-left: 1.5rem;
+            }
+            .container {
+                padding: 1.2rem 0.8rem 2rem;
+            }
+            table {
+                font-size: 0.8rem;
+                min-width: 450px;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            .nav-links {
+                gap: 0.15rem;
+            }
+            .nav-links a {
+                font-size: 0.7rem;
+                padding: 0.25rem 0.4rem;
+            }
+            .navbar .logo {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════════════ NAVBAR ═══════════════ -->
+    <nav class="navbar" aria-label="Navegação principal">
+        <div class="logo">📐 Geo<span>ENCCEJA</span></div>
+        <ul class="nav-links">
+            <li><a href="#fundamentos">Conceitos</a></li>
+            <li><a href="#triangulos">Triângulos</a></li>
+            <li><a href="#quadrilateros">Quadriláteros</a></li>
+            <li><a href="#circulo">Círculo</a></li>
+            <li><a href="#semelhanca">Semelhança</a></li>
+            <li><a href="#poligonos">Polígonos</a></li>
+            <li><a href="#exercicios" class="nav-exerc">📝 Exercícios</a></li>
+        </ul>
+    </nav>
+
+    <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+    <main class="container">
+
+        <!-- ── HERO ── -->
+        <header class="hero">
+            <h1>Geometria Plana</h1>
+            <p class="subtitle">Revisão completa para o <strong>ENCCEJA</strong> — todos os tópicos essenciais com exemplos práticos e exercícios no estilo da prova.</p>
+            <span class="badge">🎯 Nível Ensino Médio · ENCCEJA</span>
+        </header>
+
+        <!-- ═══════════ 1. CONCEITOS FUNDAMENTAIS ═══════════ -->
+        <section class="section-card" id="fundamentos">
+            <h2>📏 1. Conceitos Fundamentais</h2>
+
+            <h3>Elementos Primitivos</h3>
+            <p><strong>Ponto, reta e plano</strong> são elementos primitivos da Geometria — não possuem definição formal, mas são a base de tudo. O ponto não tem dimensão, a reta tem apenas comprimento (uma dimensão), e o plano tem comprimento e largura (duas dimensões).</p>
+
+            <h3>Segmento de Reta e Semirreta</h3>
+            <ul>
+                <li><strong>Segmento de reta:</strong> parte da reta delimitada por <em>dois extremos</em> (pontos).</li>
+                <li><strong>Semirreta:</strong> parte da reta com <em>um extremo</em>, estendendo-se infinitamente na outra direção.</li>
+            </ul>
+
+            <h3>Ângulos — Classificação</h3>
+            <ul>
+                <li><strong>Agudo:</strong> menor que 90°</li>
+                <li><strong>Reto:</strong> exatamente 90°</li>
+                <li><strong>Obtuso:</strong> maior que 90° e menor que 180°</li>
+                <li><strong>Raso:</strong> exatamente 180° (meia-volta)</li>
+            </ul>
+
+            <div class="highlight-box tip">
+                <strong>📌 Decore:</strong> Ângulos <strong>complementares</strong> somam <span class="formula">90°</span> — Ângulos <strong>suplementares</strong> somam <span class="formula">180°</span>.
+            </div>
+            <p><em>Exemplo:</em> O complemento de 35° é 55° (porque 35° + 55° = 90°). O suplemento de 110° é 70° (porque 110° + 70° = 180°).</p>
+
+            <!-- Simple angle illustration -->
+            <div class="illustration">
+                <svg width="280" height="100" viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="30" y1="80" x2="180" y2="80" stroke="#1e3a5f" stroke-width="2.5"/>
+                    <line x1="30" y1="80" x2="130" y2="18" stroke="#1e3a5f" stroke-width="2.5"/>
+                    <path d="M 55 80 A 25 25 0 0 1 73 55" fill="none" stroke="#e8913a" stroke-width="2"/>
+                    <text x="82" y="58" font-size="13" fill="#e8913a" font-weight="600">θ</text>
+                    <text x="185" y="78" font-size="12" fill="#555">180° = ângulo raso</text>
+                    <circle cx="30" cy="80" r="4" fill="#1e3a5f"/>
+                </svg>
+            </div>
+        </section>
+
+        <!-- ═══════════ 2. TRIÂNGULOS ═══════════ -->
+        <section class="section-card" id="triangulos">
+            <h2>🔺 2. Triângulos</h2>
+
+            <h3>Classificação quanto aos lados</h3>
+            <ul>
+                <li><strong>Equilátero:</strong> 3 lados iguais (e 3 ângulos de 60°).</li>
+                <li><strong>Isósceles:</strong> 2 lados iguais (e 2 ângulos iguais).</li>
+                <li><strong>Escaleno:</strong> todos os lados diferentes.</li>
+            </ul>
+
+            <h3>Classificação quanto aos ângulos</h3>
+            <ul>
+                <li><strong>Acutângulo:</strong> todos os ângulos < 90°.</li>
+                <li><strong>Retângulo:</strong> um ângulo = 90°.</li>
+                <li><strong>Obtusângulo:</strong> um ângulo > 90°.</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🔑 Propriedade Fundamental:</strong> A soma dos ângulos internos de <strong>qualquer</strong> triângulo é sempre <span class="formula">180°</span>.
+            </div>
+
+            <h3>Desigualdade Triangular</h3>
+            <p>Cada lado de um triângulo deve ser <strong>menor que a soma</strong> dos outros dois. Exemplo: lados 3, 4 e 8 <strong>não formam</strong> um triângulo porque 8 > 3 + 4.</p>
+
+            <h3>Teorema de Pitágoras</h3>
+            <p>Válido <strong>apenas em triângulos retângulos</strong>:</p>
+            <div class="formula-block">a² = b² + c²</div>
+            <p>onde <strong>a</strong> é a hipotenusa (lado oposto ao ângulo reto) e <strong>b, c</strong> são os catetos.</p>
+
+            <div class="illustration">
+                <svg width="220" height="180" viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="20,155 170,155 20,30" fill="#fdf0e3" stroke="#1e3a5f" stroke-width="2.5"/>
+                    <rect x="20" y="140" width="25" height="25" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
+                    <text x="175" y="160" font-size="13" fill="#1e3a5f" font-weight="600">b (cateto)</text>
+                    <text x="5" y="95" font-size="13" fill="#1e3a5f" font-weight="600">c (cateto)</text>
+                    <text x="90" y="80" font-size="13" fill="#d9534f" font-weight="700">a (hipotenusa)</text>
+                </svg>
+            </div>
+
+            <h3>Área do Triângulo</h3>
+            <div class="formula-block">A = (base × altura) / 2</div>
+            <p><strong>Fórmula de Heron</strong> (quando se conhecem os três lados):</p>
+            <div class="formula-block">A = √[s(s−a)(s−b)(s−c)] &nbsp;, onde s = (a+b+c)/2</div>
+            <p><em>Exemplo:</em> Triângulo de lados 5, 6 e 7 → s = 9 → A = √(9×4×3×2) = √216 ≈ 14,7.</p>
+        </section>
+
+        <!-- ═══════════ 3. QUADRILÁTEROS ═══════════ -->
+        <section class="section-card" id="quadrilateros">
+            <h2>🔲 3. Quadriláteros</h2>
+            <p>Quadriláteros são polígonos de <strong>4 lados</strong>. A soma dos ângulos internos é sempre <span class="formula">360°</span>.</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Figura</th>
+                            <th>Propriedades-chave</th>
+                            <th>Área</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Quadrado</strong></td>
+                            <td>4 lados iguais, 4 ângulos retos (90°)</td>
+                            <td><span class="formula">A = l²</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Retângulo</strong></td>
+                            <td>Ângulos retos, lados opostos iguais</td>
+                            <td><span class="formula">A = b × h</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Paralelogramo</strong></td>
+                            <td>Lados opostos paralelos e iguais</td>
+                            <td><span class="formula">A = b × h</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Losango</strong></td>
+                            <td>4 lados iguais, diagonais perpendiculares</td>
+                            <td><span class="formula">A = (D × d) / 2</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Trapézio</strong></td>
+                            <td>1 par de lados paralelos (bases B e b)</td>
+                            <td><span class="formula">A = [(B + b) × h] / 2</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="highlight-box tip">
+                <strong>💡 Dica ENCCEJA:</strong> No trapézio, a "altura" (h) é a distância <em>perpendicular</em> entre as bases, não o comprimento dos lados inclinados.
+            </div>
+        </section>
+
+        <!-- ═══════════ 4. CÍRCULO E CIRCUNFERÊNCIA ═══════════ -->
+        <section class="section-card" id="circulo">
+            <h2>⭕ 4. Círculo e Circunferência</h2>
+            <ul>
+                <li><strong>Circunferência:</strong> a <em>linha</em> que contorna o círculo.</li>
+                <li><strong>Círculo:</strong> a <em>região interna</em> delimitada pela circunferência.</li>
+            </ul>
+
+            <h3>Fórmulas Essenciais</h3>
+            <div class="formula-block">Comprimento: C = 2πr</div>
+            <div class="formula-block">Área: A = πr²</div>
+            <p>onde <strong>r</strong> é o raio e <strong>π ≈ 3,14</strong> (ou 22/7 em aproximações).</p>
+
+            <h3>Setor Circular e Arco</h3>
+            <p>Para um setor de ângulo central <strong>θ</strong> (em graus):</p>
+            <ul>
+                <li><strong>Área do setor:</strong> <span class="formula">A = (θ / 360°) × πr²</span></li>
+                <li><strong>Comprimento do arco:</strong> <span class="formula">L = (θ / 360°) × 2πr</span></li>
+            </ul>
+
+            <div class="illustration">
+                <svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="90" cy="90" r="70" fill="none" stroke="#1e3a5f" stroke-width="2.5"/>
+                    <circle cx="90" cy="90" r="4" fill="#1e3a5f"/>
+                    <line x1="90" y1="90" x2="160" y2="90" stroke="#1e3a5f" stroke-width="1.8"/>
+                    <line x1="90" y1="90" x2="55" y2="28" stroke="#1e3a5f" stroke-width="1.8"/>
+                    <path d="M 148 90 A 58 58 0 0 1 67 40" fill="#fdf0e3" stroke="#e8913a" stroke-width="2" opacity="0.7"/>
+                    <text x="115" y="58" font-size="13" fill="#e8913a" font-weight="600">setor</text>
+                    <text x="155" y="96" font-size="12" fill="#1e3a5f" font-weight="600">r</text>
+                </svg>
+            </div>
+            <p><em>Exemplo:</em> Um setor de 90° em um círculo de raio 10 cm tem área = (90/360) × π × 100 = 25π ≈ 78,5 cm².</p>
+        </section>
+
+        <!-- ═══════════ 5. SEMELHANÇA E CONGRUÊNCIA ═══════════ -->
+        <section class="section-card" id="semelhanca">
+            <h2>📐 5. Semelhança e Congruência</h2>
+            <ul>
+                <li><strong>Congruentes:</strong> figuras com <em>mesma forma e mesmo tamanho</em>.</li>
+                <li><strong>Semelhantes:</strong> figuras com <em>mesma forma</em>, mas tamanhos proporcionais.</li>
+            </ul>
+
+            <h3>Casos de Semelhança de Triângulos</h3>
+            <ul>
+                <li><strong>AA (Ângulo-Ângulo):</strong> dois ângulos correspondentes iguais.</li>
+                <li><strong>LAL (Lado-Ângulo-Lado):</strong> dois lados proporcionais e o ângulo entre eles igual.</li>
+                <li><strong>LLL (Lado-Lado-Lado):</strong> três lados proporcionais.</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🔑 Razão de Semelhança k:</strong> Se duas figuras são semelhantes com razão linear <span class="formula">k</span>, então a <strong>razão entre as áreas</strong> é <span class="formula">k²</span>.
+            </div>
+            <p><em>Exemplo:</em> Dois triângulos semelhantes com razão k = 3 → a área do maior é 9× a área do menor.</p>
+        </section>
+
+        <!-- ═══════════ 6. POLÍGONOS EM GERAL ═══════════ -->
+        <section class="section-card" id="poligonos">
+            <h2>⬡ 6. Polígonos em Geral</h2>
+            <p>Um polígono de <strong>n</strong> lados possui:</p>
+
+            <h3>Soma dos Ângulos Internos</h3>
+            <div class="formula-block">Soma = (n − 2) × 180°</div>
+            <p><em>Exemplo:</em> Hexágono (n=6) → soma = (6−2) × 180° = <strong>720°</strong>.</p>
+
+            <h3>Ângulo Interno de Polígono Regular</h3>
+            <div class="formula-block">Ângulo interno = [(n − 2) × 180°] / n</div>
+            <p><em>Exemplo:</em> Pentágono regular (n=5) → cada ângulo interno = (3×180°)/5 = <strong>108°</strong>.</p>
+
+            <h3>Número de Diagonais</h3>
+            <div class="formula-block">Diagonais = n(n − 3) / 2</div>
+            <p><em>Exemplo:</em> Octógono (n=8) → diagonais = 8×5/2 = <strong>20</strong>.</p>
+
+            <div class="highlight-box warning">
+                <strong>⚠️ Atenção:</strong> Diagonal é o segmento que liga dois vértices <em>não consecutivos</em>. Cada vértice "enxerga" (n−3) outros vértices não adjacentes.
+            </div>
+        </section>
+
+        <!-- ═══════════ EXERCÍCIOS ═══════════ -->
+        <section class="section-card" id="exercicios" style="border-top: 4px solid var(--accent);">
+            <div class="exercises-header">
+                <h2 style="border-bottom:none; margin-bottom:0;">📝 Exercícios — Nível ENCCEJA</h2>
+                <button class="btn btn-accent btn-sm" onclick="revealAllAnswers()" id="btnRevealAll">🔓 Revelar Todas as Respostas</button>
+            </div>
+            <p style="margin-bottom:1.2rem;">Resolva as questões abaixo e clique em <strong>"Ver Resposta"</strong> para conferir o gabarito. As questões simulam o estilo da prova do ENCCEJA.</p>
+
+            <!-- Q1 -->
+            <div class="exercise-card" id="q1">
+                <div class="q-header"><span class="q-number">1</span><span class="q-text">Dois ângulos são complementares. Se um deles mede 42°, quanto mede o outro?</span></div>
+                <ul class="options">
+                    <li>A) 38°</li>
+                    <li>B) 48°</li>
+                    <li>C) 58°</li>
+                    <li>D) 138°</li>
+                    <li>E) 90°</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a1')">Ver Resposta</button>
+                <div class="answer-reveal" id="a1">✅ Resposta: <strong>B) 48°</strong> — Ângulos complementares somam 90°. 90° − 42° = 48°.</div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="exercise-card" id="q2">
+                <div class="q-header"><span class="q-number">2</span><span class="q-text">Um triângulo possui lados medindo 7 cm, 7 cm e 10 cm. Como ele é classificado quanto aos lados?</span></div>
+                <ul class="options">
+                    <li>A) Equilátero</li>
+                    <li>B) Isósceles</li>
+                    <li>C) Escaleno</li>
+                    <li>D) Retângulo</li>
+                    <li>E) Obtusângulo</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a2')">Ver Resposta</button>
+                <div class="answer-reveal" id="a2">✅ Resposta: <strong>B) Isósceles</strong> — Possui dois lados iguais (7 cm cada), característica do triângulo isósceles.</div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="exercise-card" id="q3">
+                <div class="q-header"><span class="q-number">3</span><span class="q-text">Em um triângulo, dois ângulos internos medem 45° e 75°. Qual é o valor do terceiro ângulo?</span></div>
+                <ul class="options">
+                    <li>A) 45°</li>
+                    <li>B) 50°</li>
+                    <li>C) 60°</li>
+                    <li>D) 70°</li>
+                    <li>E) 90°</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a3')">Ver Resposta</button>
+                <div class="answer-reveal" id="a3">✅ Resposta: <strong>C) 60°</strong> — Soma dos ângulos internos = 180°. 180° − (45° + 75°) = 60°.</div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="exercise-card" id="q4">
+                <div class="q-header"><span class="q-number">4</span><span class="q-text">Um triângulo retângulo tem catetos medindo 6 m e 8 m. Qual é a medida da hipotenusa?</span></div>
+                <ul class="options">
+                    <li>A) 9 m</li>
+                    <li>B) 10 m</li>
+                    <li>C) 12 m</li>
+                    <li>D) 14 m</li>
+                    <li>E) 15 m</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a4')">Ver Resposta</button>
+                <div class="answer-reveal" id="a4">✅ Resposta: <strong>B) 10 m</strong> — Teorema de Pitágoras: a² = 6² + 8² = 36 + 64 = 100 → a = √100 = 10.</div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="exercise-card" id="q5">
+                <div class="q-header"><span class="q-number">5</span><span class="q-text">Qual é a área de um triângulo com base 12 cm e altura 5 cm?</span></div>
+                <ul class="options">
+                    <li>A) 17 cm²</li>
+                    <li>B) 25 cm²</li>
+                    <li>C) 30 cm²</li>
+                    <li>D) 60 cm²</li>
+                    <li>E) 120 cm²</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a5')">Ver Resposta</button>
+                <div class="answer-reveal" id="a5">✅ Resposta: <strong>C) 30 cm²</strong> — A = (base × altura) / 2 = (12 × 5) / 2 = 60 / 2 = 30 cm².</div>
+            </div>
+
+            <!-- Q6 -->
+            <div class="exercise-card" id="q6">
+                <div class="q-header"><span class="q-number">6</span><span class="q-text">Um retângulo tem 8 m de comprimento e 5 m de largura. Qual é a sua área?</span></div>
+                <ul class="options">
+                    <li>A) 13 m²</li>
+                    <li>B) 26 m²</li>
+                    <li>C) 35 m²</li>
+                    <li>D) 40 m²</li>
+                    <li>E) 80 m²</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a6')">Ver Resposta</button>
+                <div class="answer-reveal" id="a6">✅ Resposta: <strong>D) 40 m²</strong> — A = b × h = 8 × 5 = 40 m².</div>
+            </div>
+
+            <!-- Q7 -->
+            <div class="exercise-card" id="q7">
+                <div class="q-header"><span class="q-number">7</span><span class="q-text">Um trapézio tem bases medindo 10 cm e 6 cm, e altura de 4 cm. Qual é a sua área?</span></div>
+                <ul class="options">
+                    <li>A) 24 cm²</li>
+                    <li>B) 28 cm²</li>
+                    <li>C) 32 cm²</li>
+                    <li>D) 40 cm²</li>
+                    <li>E) 64 cm²</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a7')">Ver Resposta</button>
+                <div class="answer-reveal" id="a7">✅ Resposta: <strong>C) 32 cm²</strong> — A = [(B + b) × h] / 2 = [(10 + 6) × 4] / 2 = (16 × 4) / 2 = 64 / 2 = 32 cm².</div>
+            </div>
+
+            <!-- Q8 -->
+            <div class="exercise-card" id="q8">
+                <div class="q-header"><span class="q-number">8</span><span class="q-text">Usando π ≈ 22/7, qual é o comprimento aproximado de uma circunferência de raio 7 cm?</span></div>
+                <ul class="options">
+                    <li>A) 22 cm</li>
+                    <li>B) 33 cm</li>
+                    <li>C) 44 cm</li>
+                    <li>D) 49 cm</li>
+                    <li>E) 154 cm</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a8')">Ver Resposta</button>
+                <div class="answer-reveal" id="a8">✅ Resposta: <strong>C) 44 cm</strong> — C = 2πr = 2 × (22/7) × 7 = 2 × 22 = 44 cm.</div>
+            </div>
+
+            <!-- Q9 -->
+            <div class="exercise-card" id="q9">
+                <div class="q-header"><span class="q-number">9</span><span class="q-text">Um círculo tem raio de 10 cm. Usando π ≈ 3,14, qual é a sua área?</span></div>
+                <ul class="options">
+                    <li>A) 31,4 cm²</li>
+                    <li>B) 62,8 cm²</li>
+                    <li>C) 100 cm²</li>
+                    <li>D) 314 cm²</li>
+                    <li>E) 628 cm²</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a9')">Ver Resposta</button>
+                <div class="answer-reveal" id="a9">✅ Resposta: <strong>D) 314 cm²</strong> — A = πr² = 3,14 × 100 = 314 cm².</div>
+            </div>
+
+            <!-- Q10 -->
+            <div class="exercise-card" id="q10">
+                <div class="q-header"><span class="q-number">10</span><span class="q-text">Dois triângulos são semelhantes com razão de semelhança k = 4. Se a área do triângulo menor é 5 cm², qual é a área do triângulo maior?</span></div>
+                <ul class="options">
+                    <li>A) 9 cm²</li>
+                    <li>B) 16 cm²</li>
+                    <li>C) 20 cm²</li>
+                    <li>D) 40 cm²</li>
+                    <li>E) 80 cm²</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a10')">Ver Resposta</button>
+                <div class="answer-reveal" id="a10">✅ Resposta: <strong>E) 80 cm²</strong> — Razão das áreas = k² = 16. Área maior = 5 × 16 = 80 cm².</div>
+            </div>
+
+            <!-- Q11 -->
+            <div class="exercise-card" id="q11">
+                <div class="q-header"><span class="q-number">11</span><span class="q-text">É possível construir um triângulo com lados medindo 3 cm, 4 cm e 8 cm?</span></div>
+                <ul class="options">
+                    <li>A) Sim, é um triângulo escaleno.</li>
+                    <li>B) Sim, é um triângulo isósceles.</li>
+                    <li>C) Não, porque 8 > 3 + 4.</li>
+                    <li>D) Não, porque a soma dos ângulos seria maior que 180°.</li>
+                    <li>E) Sim, usando o Teorema de Pitágoras.</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a11')">Ver Resposta</button>
+                <div class="answer-reveal" id="a11">✅ Resposta: <strong>C) Não, porque 8 > 3 + 4.</strong> — Pela desigualdade triangular, cada lado deve ser menor que a soma dos outros dois. 8 > 7, portanto impossível.</div>
+            </div>
+
+            <!-- Q12 -->
+            <div class="exercise-card" id="q12">
+                <div class="q-header"><span class="q-number">12</span><span class="q-text">Qual é a soma dos ângulos internos de um hexágono (polígono de 6 lados)?</span></div>
+                <ul class="options">
+                    <li>A) 360°</li>
+                    <li>B) 540°</li>
+                    <li>C) 720°</li>
+                    <li>D) 900°</li>
+                    <li>E) 1080°</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a12')">Ver Resposta</button>
+                <div class="answer-reveal" id="a12">✅ Resposta: <strong>C) 720°</strong> — Soma = (n−2)×180° = (6−2)×180° = 4×180° = 720°.</div>
+            </div>
+
+            <!-- Q13 -->
+            <div class="exercise-card" id="q13">
+                <div class="q-header"><span class="q-number">13</span><span class="q-text">Quantas diagonais possui um pentágono (polígono de 5 lados)?</span></div>
+                <ul class="options">
+                    <li>A) 2</li>
+                    <li>B) 3</li>
+                    <li>C) 5</li>
+                    <li>D) 8</li>
+                    <li>E) 10</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a13')">Ver Resposta</button>
+                <div class="answer-reveal" id="a13">✅ Resposta: <strong>C) 5</strong> — Diagonais = n(n−3)/2 = 5×2/2 = 5.</div>
+            </div>
+
+            <!-- Q14 -->
+            <div class="exercise-card" id="q14">
+                <div class="q-header"><span class="q-number">14</span><span class="q-text">Um losango tem diagonais medindo 8 cm e 6 cm. Qual é a sua área?</span></div>
+                <ul class="options">
+                    <li>A) 14 cm²</li>
+                    <li>B) 20 cm²</li>
+                    <li>C) 24 cm²</li>
+                    <li>D) 28 cm²</li>
+                    <li>E) 48 cm²</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a14')">Ver Resposta</button>
+                <div class="answer-reveal" id="a14">✅ Resposta: <strong>C) 24 cm²</strong> — A = (D × d) / 2 = (8 × 6) / 2 = 48 / 2 = 24 cm².</div>
+            </div>
+
+            <!-- Q15 -->
+            <div class="exercise-card" id="q15">
+                <div class="q-header"><span class="q-number">15</span><span class="q-text">Um ângulo mede 110°. Qual é a medida do seu suplemento?</span></div>
+                <ul class="options">
+                    <li>A) 20°</li>
+                    <li>B) 60°</li>
+                    <li>C) 70°</li>
+                    <li>D) 80°</li>
+                    <li>E) 250°</li>
+                </ul>
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer('a15')">Ver Resposta</button>
+                <div class="answer-reveal" id="a15">✅ Resposta: <strong>C) 70°</strong> — Ângulos suplementares somam 180°. 180° − 110° = 70°.</div>
+            </div>
+
+            <!-- GABARITO RÁPIDO -->
+            <div style="margin-top:2rem; padding:1.2rem 1.5rem; background:#f9f7f3; border-radius:var(--radius);">
+                <h3 style="margin-top:0;">📋 Gabarito Rápido</h3>
+                <div class="gabarito-grid">
+                    <div class="gabarito-item">Q1: <span>B</span></div>
+                    <div class="gabarito-item">Q2: <span>B</span></div>
+                    <div class="gabarito-item">Q3: <span>C</span></div>
+                    <div class="gabarito-item">Q4: <span>B</span></div>
+                    <div class="gabarito-item">Q5: <span>C</span></div>
+                    <div class="gabarito-item">Q6: <span>D</span></div>
+                    <div class="gabarito-item">Q7: <span>C</span></div>
+                    <div class="gabarito-item">Q8: <span>C</span></div>
+                    <div class="gabarito-item">Q9: <span>D</span></div>
+                    <div class="gabarito-item">Q10: <span>E</span></div>
+                    <div class="gabarito-item">Q11: <span>C</span></div>
+                    <div class="gabarito-item">Q12: <span>C</span></div>
+                    <div class="gabarito-item">Q13: <span>C</span></div>
+                    <div class="gabarito-item">Q14: <span>C</span></div>
+                    <div class="gabarito-item">Q15: <span>C</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ DICAS FINAIS ═══════════ -->
+        <section class="section-card" style="background:#fdf8f2; border-left:5px solid var(--accent);">
+            <h2 style="border-bottom-color:#f0dcc8;">🎯 Dicas Finais para o ENCCEJA</h2>
+            <ul>
+                <li>✅ <strong>Leia o enunciado com calma</strong> — muitas questões trazem informações extras que podem confundir.</li>
+                <li>✅ <strong>Desenhe a figura</strong> sempre que possível, mesmo que seja um esboço simples.</li>
+                <li>✅ <strong>Verifique as unidades</strong> — centímetros, metros, cm², m²... não misture sem converter!</li>
+                <li>✅ <strong>Use π = 3,14</strong> a menos que a questão peça 22/7 explicitamente.</li>
+                <li>✅ <strong>Revise as fórmulas de área</strong> — são as mais cobradas na prova.</li>
+                <li>✅ <strong>Pitágoras</strong> só vale em triângulo <em>retângulo</em> — identifique o ângulo reto primeiro.</li>
+                <li>✅ <strong>Gerencie o tempo:</strong> faça primeiro as questões que você tem mais segurança.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <footer class="footer">
+        <p>📐 Geometria Plana — Revisão ENCCEJA | Estude com confiança! 💪</p>
+    </footer>
+
+    <!-- ═══════════════ SCROLL TO TOP ═══════════════ -->
+    <button class="scroll-top" id="scrollTopBtn" title="Voltar ao topo" aria-label="Voltar ao topo">↑</button>
+
+    <!-- ═══════════════ SCRIPTS ═══════════════ -->
+    <script>
+        // Toggle individual answer
+        function toggleAnswer(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.toggle('show');
+                // Update button text
+                const btn = el.previousElementSibling;
+                if (btn && btn.tagName === 'BUTTON') {
+                    btn.textContent = el.classList.contains('show') ? 'Ocultar Resposta' : 'Ver Resposta';
+                }
+            }
+        }
+
+        // Reveal all answers
+        function revealAllAnswers() {
+            const answers = document.querySelectorAll('.answer-reveal');
+            const btn = document.getElementById('btnRevealAll');
+            const allShown = Array.from(answers).every(a => a.classList.contains('show'));
+
+            answers.forEach(a => {
+                if (allShown) {
+                    a.classList.remove('show');
+                } else {
+                    a.classList.add('show');
+                }
+            });
+
+            // Update all individual buttons
+            document.querySelectorAll('.exercise-card .btn-outline.btn-sm').forEach(b => {
+                b.textContent = allShown ? 'Ver Resposta' : 'Ocultar Resposta';
+            });
+
+            btn.textContent = allShown ? '🔓 Revelar Todas as Respostas' : '🔒 Ocultar Todas as Respostas';
+        }
+
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        function toggleScrollTopBtn() {
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        }
+
+        window.addEventListener('scroll', toggleScrollTopBtn, { passive: true });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Initial check
+        toggleScrollTopBtn();
+    </script>
+</body>
+</html>
